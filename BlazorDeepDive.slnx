@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ServerManagmentProject/ServerManagmentProject.csproj" />
+  <Project Path="ToDoApp/ToDoApp.csproj" Id="2ca57933-f97e-4ce0-87ea-2045b9aa7e53" />
+</Solution>
