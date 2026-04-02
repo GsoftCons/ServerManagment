@@ -31,26 +31,7 @@
 
 <br/>
 
-<ul>
-    @foreach (var server in severs)
-    {
-        <li>
-            @server.Name in @server.City is 
-            <span style="color:@((server.IsOnline ? "green" : "red"))">
-                @(server.IsOnline ? "Online" : "Offline")
-            </span>
-            &nbsp;
-            <a href="/servers/edit/@server.Id" class="btn btn-link">Edit</a>
-            &nbsp;
-            <EditForm 
-                Model="server" 
-                FormName="@($"form.server- {server.Id}")" 
-                OnValidSubmit="@(() => {DeleteServer(server.Id); })">
-                <button type="submit" class="btn btn-primary">Delete</button>
-            </EditForm>
-        </li>
-    }
-</ul>
+<ServerListComponent CityName="@this.selectedCity"></ServerListComponent>
 <p>
     <a href="/servers/add" class="btn btn-primary">Add Server</a>
 </p>
@@ -62,30 +43,21 @@
 
     private string serverFilter = "";
 
-    private List<Server> severs;
-
     private List<String> cities;
 
     protected override void OnInitialized()
     {
         cities = CitiesRepository.GetCities();
-        severs = ServersRepository.GetServersByCity(selectedCity);
+        //severs = ServersRepository.GetServersByCity(selectedCity);
     }
 
 
-    private void DeleteServer(int serverId)
-    {
-        if(serverId > 0)
-        {
-            ServersRepository.DeleteServer(serverId);
-            //severs = ServersRepository.GetServres();
-        }
-    }
+   
 
     private void SelectCity(string cityName)
     {
         this.selectedCity = cityName;
-        this.severs = ServersRepository.GetServersByCity(this.selectedCity);
+        //this.severs = ServersRepository.GetServersByCity(this.selectedCity);
     }
 
     private void HandleServerFilterChanged(ChangeEventArgs args)
@@ -95,7 +67,7 @@
 
     private void HandleSearch()
     {
-        this.severs = ServersRepository.SearchServers(serverFilter);
+        //this.severs = ServersRepository.SearchServers(serverFilter);
 
         this.selectedCity = string.Empty;
 

@@ -1,0 +1,28 @@
+﻿
+@if (this.servers != null && this.servers.Count > 0)
+{
+    <ul>
+        @foreach (var server in servers)
+        {
+            <Virtualize Items="this.servers" Context="server">
+                <ServerComponent server="@server"></ServerComponent>
+            </Virtualize>
+        }
+    </ul>
+}
+
+@code {
+
+    [Parameter]
+    public string? CityName { get; set; }
+
+    private List<Server>? servers;
+
+    protected override void OnParametersSet()
+    {
+        servers = ServersRepository.GetServersByCity(CityName?? "Toronto");
+    }
+
+   
+
+}
