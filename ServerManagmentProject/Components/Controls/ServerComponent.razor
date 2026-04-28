@@ -10,6 +10,29 @@
         &nbsp;
         <a href="/servers/edit/@server.Id" class="btn btn-link">Edit</a>
         &nbsp;
+        &nbsp;
+        @if (server.IsOnline)
+        {
+            <button type="button" class="btn btn-outline-danger" @onclick="@(()=>{server.IsOnline = false;})">Turn Off</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-outline-success" @onclick="@(()=>{server.IsOnline = true;})">Turn On</button>
+        }
+        &nbsp;
+
+        @if(server.IsOnline)
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(1, 500);
+            <text>@randomNumber</text>
+        }
+        else
+        {
+            <text>N/A</text>
+        }
+
+        &nbsp;
         <EditForm Model="server"
                   FormName="@($"form.server- {server.Id}")"
                   OnValidSubmit="@(() => {DeleteServer(server.Id); })">
