@@ -15,7 +15,11 @@
 
 <br/>
 
-<ServerListComponent CityName="@selectedCity" SearchFilter="@searchFilter"></ServerListComponent>
+<CascadingValue Name="SelectedCity" Value="@selectedCity">
+
+    <ServerListComponent CityName="@selectedCity" SearchFilter="@searchFilter"></ServerListComponent>
+
+</CascadingValue>
 
 <p>
     <a href="/servers/add" class="btn btn-primary">Add Server</a>
@@ -35,7 +39,6 @@
         selectedCity = cityName;
         this.searchFilter = string.Empty;
         searchBarComponent?.ClearFilter();
-
     }
 
     private void HandleSearchServer(string searchFilter)
