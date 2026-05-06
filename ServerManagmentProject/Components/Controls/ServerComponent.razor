@@ -2,48 +2,46 @@
 
 @if (server != null)
 {
-    <li @key="server.Id" style="background-color:@GetBackgroundColor()">
-        @server.Name in @server.City is
-        <span style="color:@((server.IsOnline ? "green" : "red"))">
-            @(server.IsOnline ? "Online" : "Offline")
-        </span>
-        &nbsp;
-        <a href="/servers/edit/@server.Id" class="btn btn-link">Edit</a>
-        &nbsp;
-        &nbsp;
-        @if (server.IsOnline)
-        {
-            <button type="button" class="btn btn-outline-danger" @onclick="@(()=>{server.IsOnline = false;})">Turn Off</button>
-        }
-        else
-        {
-            <button type="button" class="btn btn-outline-success" @onclick="@(()=>{server.IsOnline = true;})">Turn On</button>
-        }
-        &nbsp;
-
-        @if(server.IsOnline)
-        {
-            Random random = new Random();
-            int randomNumber = random.Next(1, 500);
-            <text>@randomNumber</text>
-        }
-        else
-        {
-            <text>N/A</text>
-        }
-
-        &nbsp;
-        <EditForm Model="server"
-                  FormName="@($"form.server- {server.Id}")"
-                  OnValidSubmit="@(() => {DeleteServer(server.Id); })">
-            <button type="submit" class="btn btn-primary">Delete</button>
-        </EditForm>
-    </li>
-
-    @selectedCity
+    <tr @key="server.Id" style="background-color:@GetBackgroundColor()">
+        <td>@server.Name</td>
+        <td>@server.City</td>
+        <td style="color:@((server.IsOnline ? "green" : "red"))">
+                @(server.IsOnline ? "Online" : "Offline")
+        </td>
+        <td>
+            @if (server.IsOnline)
+            {
+                Random random = new Random();
+                int randomNumber = random.Next(1, 500);
+                <text>@randomNumber</text>
+            }
+            else
+            {
+                <text>N/A</text>
+            }
+        </td>
+        <td>
+            @if (server.IsOnline)
+            {
+                <button type="button" class="btn btn-outline-danger" @onclick="@(() => { server.IsOnline = false; })">Turn Off</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-outline-success" @onclick="@(() => { server.IsOnline = true; })">Turn On</button>
+            }
+            &nbsp;
+            <a href="/servers/edit/@server.Id" class="btn btn-link">Edit</a>
+        </td>
+        <td>
+            <EditForm Model="server"
+                      FormName="@($"form.server-{server.Id}")"
+                      OnValidSubmit="@(() => { DeleteServer(server.Id); })" 
+                      style="@($"background-color:{GetBackgroundColor()}")">
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </EditForm>
+        </td>
+    </tr>
 }
-
-
 
 @code {
 
@@ -64,29 +62,19 @@
 
     private string GetBackgroundColor()
     {
-        if(selectedCity != null )
+        if (selectedCity != null)
         {
-           switch (selectedCity.ToLower())
+            switch (selectedCity.ToLower())
             {
-                case "toronto":
-                    return "#f0f8ff"; // AliceBlue
-                case "vancouver":
-                    return "#e6ffe6"; // Honeydew
-                case "montreal":
-                    return "#fff0f5"; // LavenderBlush
-                case "ottawa":
-                    return "#ere34s";
-                case "calgary":
-                    return "pink";
-                case "halifax":
-                    return "#white";
-                default:
-                    return "transparent";
+                case "toronto": return "#f0f8ff";
+                case "vancouver": return "#e6ffe6";
+                case "montreal": return "#fff0f5";
+                case "ottawa": return "#ere34s";
+                case "calgary": return "pink";
+                case "halifax": return "#white";
+                default: return "transparent";
             }
         }
-        else
-        {
-            return "transparent";
-        }
+        return "transparent";
     }
 }
